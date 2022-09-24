@@ -10,10 +10,12 @@ const fetchUrl = async (url) => {
 
 export function InfiniteSpecies() {
   // TODO: get data for InfiniteScroll via React Query
-  const { data, fetchNextPage, hasNextPage, isError, error, isLoading, isFetching } = useInfiniteQuery("sw-species", ({ pageParam = initialUrl }) => fetchNextPage(pageParam),
-  {
-    getNextPageParam: (lastPage) => lastPage.next || undefined,
-  }
+  const { data, fetchNextPage, hasNextPage, isError, error, isLoading, isFetching } = useInfiniteQuery(
+    "sw-species", 
+    ({ pageParam = initialUrl }) => fetchUrl(pageParam),
+    {
+      getNextPageParam: (lastPage) => lastPage.next || undefined,
+    }
   )
 
   if (isLoading) return <div className="loading">Loading...</div>
@@ -21,7 +23,7 @@ export function InfiniteSpecies() {
   if (isError) return <div>An error occurred: {error.toString()}</div>
 
   
-  return 
+  return (
     <>
       { isFetching && <div className="loading">Fetching...</div> }
 
@@ -29,15 +31,13 @@ export function InfiniteSpecies() {
       {
         data.pages.map((e) => {
         return e.results.map((species) => {
-          return 
-          <div key={species}>
-            
-          </div>
+          return (
+            <Species key={species.name} name={species.name} language={species.language} averageLifespan={species.average_lifespan} />
+          )
         })
         })
       }
       </InfiniteScroll>
-    </>
-    
-  
+    </> 
+  )
 }

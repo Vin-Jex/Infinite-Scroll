@@ -1,5 +1,6 @@
 .loading {
   position: fixed;
-  top: 5px;
-  right: 5px;
+  top: 3rem;
+  right: 3rem;
+  font-size: 2rem;
 }
